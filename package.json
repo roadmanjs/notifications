@@ -1,6 +1,6 @@
 {
     "name": "@roadmanjs/wallet",
-    "version": "0.0.72",
+    "version": "0.0.73",
     "description": "A very Wallet",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -25,6 +25,7 @@
         "test": "mocha src/*test.ts --exit",
         "coinbase": "mocha src/processors/coinbase/rest/*test.ts --exit",
         "nowpayments": "mocha src/processors/nowpayments/wrapper/*test.ts --exit",
+        "kraken": "mocha src/processors/kraken/**/**test.ts --exit",
         "btcpay": "mocha src/processors/btcpayserver/*test.ts --exit",
         "stripe": "mocha src/processors/stripe/*test.ts --exit",
         "eslint": "eslint ./src --fix --ext=ts",

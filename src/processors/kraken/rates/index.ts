@@ -27,10 +27,8 @@ interface Xxbtzusd {
     o: string;
 }
 
-export const fetchRates = async (ogPairs: string, cache = false): Promise<PairRate[]> => {
+export const fetchRates = async (pairs: string, cache = false): Promise<PairRate[]> => {
     try {
-        const pairs = ogPairs.replaceAll('_', '');
-
         if (cache) {
             const ratesCache = new RatesCache();
             const rates = await Promise.all(
@@ -39,8 +37,9 @@ export const fetchRates = async (ogPairs: string, cache = false): Promise<PairRa
             return rates as any;
         }
 
-        const getRates = async (rate: string) => {
-            const endpoint = `https://api.kraken.com/0/public/Ticker?pair=${rate}`;
+        const getRates = async (pairrr: string) => {
+            const pairRate = pairrr.replaceAll('_', '');
+            const endpoint = `https://api.kraken.com/0/public/Ticker?pair=${pairRate}`;
 
             try {
                 const {data} = await axios.get<PublicTickerResponse>(endpoint);
@@ -65,7 +64,7 @@ export const fetchRates = async (ogPairs: string, cache = false): Promise<PairRa
                 }
 
                 return {
-                    pair: rate,
+                    pair: pairrr,
                     rate: +rateData.c[0],
                 };
             } catch (error) {
