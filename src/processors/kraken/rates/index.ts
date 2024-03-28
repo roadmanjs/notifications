@@ -4,7 +4,7 @@ import {PairRate, RatesCache} from '../../shared';
 // [cron] getAllTransactions -> settle
 import axios from 'axios';
 import {isEmpty} from 'lodash';
-import {verbose} from 'roadman';
+import {log} from '@roadmanjs/logs';
 
 interface PublicTickerResponse {
     error: any[];
@@ -34,7 +34,11 @@ export const fetchRates = async (pairs: string, cache = false): Promise<PairRate
             const rates = await Promise.all(
                 pairs.split(',').map((pair) => ratesCache.getPair(pair))
             );
-            return rates as any;
+
+            if (!rates.some((rate) => !rate) && !rates.some((rate) => Number.isNaN(rate.rate))) {
+                log('rates cache', rates);
+                return rates as any;
+            }
         }
 
         const getRates = async (pairrr: string) => {
@@ -74,6 +78,8 @@ export const fetchRates = async (pairs: string, cache = false): Promise<PairRate
 
         const rates = await Promise.all(pairs.split(',').map(getRates));
 
+        log('rates', rates);
+
         return rates;
     } catch (error) {
         console.log('Error getting store rates:', error);
@@ -87,7 +93,7 @@ export const fetchRatesSaveToCache = async (pairs: string): Promise<any> => {
         const rates = await fetchRates(pairs);
         if (!isEmpty(rates)) {
             const savedPairs = await rates.map(async (rate) => cache.savePair(rate.pair, rate));
-            verbose('savedPairs', savedPairs.length);
+            log('savedPairs', savedPairs.length);
         }
     } catch (error) {
         console.log('error fetchRatesSaveToCache', error);
