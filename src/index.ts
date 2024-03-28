@@ -1,5 +1,6 @@
 import {TransactionAdminResolver, TransactionResolver} from './transactions';
 
+import WalletRatesResolver from './wallet/wallet.rates.resolver';
 // export applyProcessor
 //  ---> roadman.app(applyProcessor)
 // export resolvers
@@ -9,6 +10,7 @@ export const getWalletResolvers = () => [
     TransactionResolver,
     TransactionAdminResolver,
     WalletResolver,
+    WalletRatesResolver,
 ];
 
 export * from './wallet';

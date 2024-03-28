@@ -1,7 +1,7 @@
 import {Resolver, Query, Arg} from 'type-graphql';
 import {log} from '@roadmanjs/logs';
 import {ObjectType, Field} from 'couchset';
-import {fetchRates} from './rates';
+import {fetchRates} from '../processors/kraken/rates';
 
 @ObjectType()
 export class PairRate {
@@ -13,7 +13,7 @@ export class PairRate {
 }
 
 @Resolver()
-export class BtcpayserverResolver {
+export class WalletRatesResolver {
     @Query(() => [PairRate])
     async fetchRates(
         @Arg('pairs', () => String, {
@@ -31,4 +31,4 @@ export class BtcpayserverResolver {
     }
 }
 
-export default BtcpayserverResolver;
+export default WalletRatesResolver;
