@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {Field, InputType, Model, ObjectType} from 'couchset';
 
 @InputType('BadgeInput')

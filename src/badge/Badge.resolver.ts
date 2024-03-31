@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {Resolver, Query, Arg, UseMiddleware, Ctx} from 'couchset';
 import {log} from 'roadman';
 import {Badge} from './Badge.model';
