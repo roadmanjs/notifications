@@ -1,18 +1,4 @@
-import {TransactionAdminResolver, TransactionResolver} from './transactions';
+import {BadgeResolver} from './badge/Badge.resolver';
+import NotificationResolver from './notification/notification.resolver';
 
-import WalletRatesResolver from './wallet/wallet.rates.resolver';
-// export applyProcessor
-//  ---> roadman.app(applyProcessor)
-// export resolvers
-import {WalletResolver} from './wallet';
-
-export const getWalletResolvers = () => [
-    TransactionResolver,
-    TransactionAdminResolver,
-    WalletResolver,
-    WalletRatesResolver,
-];
-
-export * from './wallet';
-export * from './transactions';
-export * from './processors';
+export const getNotificationResolvers = () => [NotificationResolver, BadgeResolver];
