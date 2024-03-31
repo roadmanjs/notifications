@@ -1,7 +1,7 @@
 {
-    "name": "@roadmanjs/notification",
+    "name": "@roadmanjs/notifications",
     "version": "0.0.1",
-    "description": "notification",
+    "description": "notifications module for roadmanjs",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
@@ -48,6 +48,7 @@
         "@types/lodash": "^4.14.168",
         "@types/mocha": "^8.2.0",
         "@types/node": "^10.0.3",
+        "@types/node-xmpp-client": "^3.1.11",
         "@types/source-map-support": "^0.4.0",
         "@types/uuid": "^8.3.4",
         "@typescript-eslint/eslint-plugin": "^3.4.0",
@@ -84,6 +85,7 @@
         "debug": "^4.3.1",
         "dotenv": "^8.2.0",
         "lodash": "^4.17.20",
+        "node-xmpp-client": "^3.2.0",
         "reflect-metadata": "^0.1.13",
         "roadman": "^0.3.12"
     }

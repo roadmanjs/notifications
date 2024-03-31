@@ -1,19 +1,18 @@
 import {Notification, NotificationModel} from './notification.model';
-import {compact, flattenDeep, isEmpty} from 'lodash';
+import {compact, isEmpty} from 'lodash';
 
 import {awaitTo} from 'couchset/dist/utils';
 import {createUpdate} from 'couchset';
 import {updateBadgeCount} from '../badge/Badge.methods';
+import {UserModel} from '@roadmanjs/auth';
+import {sendXmppMessage} from '../xmpp';
+import {log} from '@roadmanjs/logs';
 
 export const createNotification = async (
     notification: Notification,
     silent = false
 ): Promise<Notification | null> => {
     try {
-        const {owner} = notification;
-        // create notification
-        // send notification if not silent, using owner
-
         const newNotification = await createUpdate<Notification>({
             model: NotificationModel,
             data: {
@@ -21,6 +20,10 @@ export const createNotification = async (
             },
             ...notification, // id and owner if it exists
         });
+
+        if (!silent) {
+            await broadcastNotification(notification);
+        }
 
         return newNotification;
     } catch (error) {
@@ -87,6 +90,31 @@ export const deleteNotification = async (id: string): Promise<boolean> => {
         return deleted;
     } catch (error) {
         console.error('error deleting notification', error);
+        return false;
+    }
+};
+
+export const broadcastNotification = async (notification: Notification): Promise<boolean> => {
+    try {
+        const {owner} = notification;
+
+        const [error, user] = await awaitTo(UserModel.findById(owner));
+
+        if (error || !user) {
+            throw new Error('error getting user');
+        }
+
+        // send notification to user
+        // jabber
+        if (user.jid) {
+            await sendXmppMessage(user.jid, notification.message);
+        }
+        // push notification
+        // ....
+
+        return true;
+    } catch (error) {
+        log('error broadcastNotification', error);
         return false;
     }
 };
